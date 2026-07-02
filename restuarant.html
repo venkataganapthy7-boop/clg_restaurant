@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Restaurant Food Order</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#fff8f0;
+}
+
+header{
+    background:#d35400;
+    color:white;
+    text-align:center;
+    padding:20px;
+    font-size:30px;
+    font-weight:bold;
+}
+
+.container{
+    width:90%;
+    max-width:1000px;
+    margin:20px auto;
+}
+
+h2{
+    margin-bottom:15px;
+    color:#d35400;
+}
+
+.menu{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:white;
+    padding:15px;
+    border-radius:10px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.2);
+    text-align:center;
+}
+
+.card h3{
+    margin-bottom:10px;
+}
+
+.card p{
+    color:#d35400;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.card input[type="number"]{
+    width:60px;
+    padding:5px;
+}
+
+form{
+    background:white;
+    margin-top:25px;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.2);
+}
+
+input, textarea{
+    width:100%;
+    padding:10px;
+    margin:10px 0;
+}
+
+button{
+    background:#d35400;
+    color:white;
+    border:none;
+    padding:12px 20px;
+    cursor:pointer;
+    border-radius:5px;
+    font-size:16px;
+}
+
+button:hover{
+    background:#a84300;
+}
+
+#summary{
+    margin-top:25px;
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.2);
+    white-space:pre-line;
+}
+
+@media(max-width:600px){
+    header{
+        font-size:24px;
+    }
+}
+</style>
+
+</head>
+<body>
+
+<header>
+🍔 Delicious Restaurant 🍕
+</header>
+
+<div class="container">
+
+<h2>Food Menu</h2>
+
+<div class="menu">
+
+<div class="card">
+<h3>Burger</h3>
+<p>₹120</p>
+<input type="checkbox" id="burger"> Select<br><br>
+Qty:
+<input type="number" id="burgerQty" min="1" value="1">
+</div>
+
+<div class="card">
+<h3>Pizza</h3>
+<p>₹250</p>
+<input type="checkbox" id="pizza"> Select<br><br>
+Qty:
+<input type="number" id="pizzaQty" min="1" value="1">
+</div>
+
+<div class="card">
+<h3>Sandwich</h3>
+<p>₹90</p>
+<input type="checkbox" id="sandwich"> Select<br><br>
+Qty:
+<input type="number" id="sandwichQty" min="1" value="1">
+</div>
+
+<div class="card">
+<h3>Fries</h3>
+<p>₹80</p>
+<input type="checkbox" id="fries"> Select<br><br>
+Qty:
+<input type="number" id="friesQty" min="1" value="1">
+</div>
+
+<div class="card">
+<h3>Juice</h3>
+<p>₹60</p>
+<input type="checkbox" id="juice"> Select<br><br>
+Qty:
+<input type="number" id="juiceQty" min="1" value="1">
+</div>
+
+</div>
+
+<form>
+
+<h2>Customer Details</h2>
+
+<input type="text" id="name" placeholder="Customer Name">
+
+<input type="text" id="mobile" placeholder="Mobile Number">
+
+<textarea id="address" placeholder="Address"></textarea>
+
+<button type="button" onclick="calculateBill()">
+Place Order
+</button>
+
+</form>
+
+<div id="summary">
+<h2>Order Summary</h2>
+</div>
+
+</div>
+
+<script>
+
+function calculateBill(){
+
+let name=document.getElementById("name").value.trim();
+let mobile=document.getElementById("mobile").value.trim();
+let address=document.getElementById("address").value.trim();
+
+if(name=="" || mobile=="" || address==""){
+alert("Please fill all customer details.");
+return;
+}
+
+if(mobile.length!=10 || isNaN(mobile)){
+alert("Enter a valid 10-digit mobile number.");
+return;
+}
+
+let items=[
+{id:"burger",qty:"burgerQty",name:"Burger",price:120},
+{id:"pizza",qty:"pizzaQty",name:"Pizza",price:250},
+{id:"sandwich",qty:"sandwichQty",name:"Sandwich",price:90},
+{id:"fries",qty:"friesQty",name:"Fries",price:80},
+{id:"juice",qty:"juiceQty",name:"Juice",price:60}
+];
+
+let total=0;
+
+let output="Customer: "+name+"\n\n";
+
+items.forEach(function(item){
+
+if(document.getElementById(item.id).checked){
+
+let quantity=parseInt(document.getElementById(item.qty).value);
+
+let subtotal=quantity*item.price;
+
+total+=subtotal;
+
+output+=item.name+" x"+quantity+" = ₹"+subtotal+"\n";
+
+}
+
+});
+
+output+="----------------------\n";
+output+="Grand Total = ₹"+total+"\n\n";
+output+="Thank You for Ordering!";
+
+document.getElementById("summary").innerText=output;
+
+}
+
+</script>
+
+</body>
+</html>
